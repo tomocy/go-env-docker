@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_BUILDKIT: "1"
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check code
+        run: make check
+      - name: Build linux/amd64 binary
+        run: make PLATFORM=linux/amd64
+      - name: Build windows/amd64 binary
+        run: make PLATFORM=windows/amd64
